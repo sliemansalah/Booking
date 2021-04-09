@@ -1,7 +1,6 @@
 
 import Vue from 'vue'
 import Router from 'vue-router'
-
 Vue.use(Router)
 
 const router = new Router({
@@ -45,30 +44,34 @@ const router = new Router({
         // PAGES
         // =============================================================================
               {
-                path: '/pages/login',
+                path: '/login',
                 name: 'page-login',
-                component: () => import('@/views/pages/Login.vue')
+                component: () => import('@/views/Login.vue')
               },
               {
-                path: '/pages/error-404',
+                path: '/error-404',
                 name: 'page-error-404',
-                component: () => import('@/views/pages/Error404.vue')
+                component: () => import('@/views/Error404.vue')
               },
             ]
         },
         // Redirect to 404 page, if no match found
         {
             path: '*',
-            redirect: '/pages/error-404'
+            redirect: '/error-404'
         }
     ],
 })
 
+let token = localStorage.getItem("token") || null;
+
 router.afterEach(() => {
-  // Remove initial loading
   const appLoading = document.getElementById('loading-bg')
     if (appLoading) {
         appLoading.style.display = "none";
+    }
+    if(!token) {
+      router.push('/login');
     }
 })
 

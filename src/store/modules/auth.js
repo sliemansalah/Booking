@@ -2,9 +2,9 @@ const actions = {
   login({}, data) {
     return new Promise((resolve, reject) => {
        let form = new FormData();
-       if( data.username) form.append('username', data.username);
+       if( data.email) form.append('email', data.email);
        if( data.password) form.append('password', data.password);
-      axios.post(window.server_url + `/api/seller/store_login`, form)
+      axios.post(window.server_url + `/api/admin/auth/login`, form)
         .then((response) => {
           resolve(response.data);
         })
@@ -15,7 +15,7 @@ const actions = {
   },
   logout({}) {
     return new Promise((resolve, reject) => {
-      axios.post(window.server_url + `/api/store/logout`)
+      axios.post(window.server_url + `/api/admin/auth/logout`)
         .then((response) => {
           resolve(response.data);
         })

@@ -2,8 +2,14 @@
     "Appointments": "الحجوزات",
     "Services": "الخدمات",
     "AddNewService": "إضافة خدمة جديدة",
-    "AddNewBook": "إضافة حجز جديدة",
+    "AddNewBook": "إضافة حجز جديد",
     "Name": "الاسم",
     "CreatedAt": "تاريخ الإنشاء",
-    "Actions": "العمليات"
+    "Actions": "العمليات",
+    "Login": "تسجيل دخول",
+    "WelcomeBack": "مرحبًا بعودتك، من فضلك سجل دخولك",
+    "Email": "البريد الإلكتروني",
+    "Password": "كلمة المرور",
+    "Logout": "تسجيل الخروج",
+    "ProjectTitle": "نظام حجوزات"
 }

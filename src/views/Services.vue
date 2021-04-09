@@ -3,9 +3,13 @@
     <vs-table stripe :data="services">
 
       <template slot="header">
-        <h3>
-          {{$t('Services')}}
-        </h3>
+        <div class="row">
+            <div class="col-md-6">
+              <span class="mb-3 h3">
+                {{$t('Services')}}
+              </span>
+            </div>
+        </div>
       </template>
 
 

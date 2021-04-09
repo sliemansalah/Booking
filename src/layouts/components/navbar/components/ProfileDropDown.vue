@@ -3,7 +3,6 @@
 
     <div class="text-right leading-tight hidden sm:block">
       <p class="font-semibold">{{ activeUserInfo.displayName }}</p>
-      <small>Available</small>
     </div>
 
     <vs-dropdown vs-custom-content vs-trigger-click class="cursor-pointer">
@@ -15,7 +14,7 @@
       <vs-dropdown-menu class="vx-navbar-dropdown">
         <ul style="min-width: 9rem">
 
-          <li class="flex py-2 px-4 cursor-pointer hover:bg-primary hover:text-white">
+          <!-- <li class="flex py-2 px-4 cursor-pointer hover:bg-primary hover:text-white">
             <feather-icon icon="UserIcon" svgClasses="w-4 h-4" />
             <span class="ml-2">Profile</span>
           </li>
@@ -40,13 +39,13 @@
             <span class="ml-2">Wish List</span>
           </li>
 
-          <vs-divider class="m-1" />
+          <vs-divider class="m-1" /> -->
 
           <li
             class="flex py-2 px-4 cursor-pointer hover:bg-primary hover:text-white"
             @click="logout">
             <feather-icon icon="LogOutIcon" svgClasses="w-4 h-4" />
-            <span class="ml-2">Logout</span>
+            <span class="ml-2">{{$t('Logout')}}</span>
           </li>
         </ul>
       </vs-dropdown-menu>
@@ -63,10 +62,10 @@ export default {
   },
   methods: {
     logout () {
-      localStorage.removeItem('userInfo')
-
+      localStorage.removeItem('token')
+      localStorage.removeItem('user')
       // This is just for demo Purpose. If user clicks on logout -> redirect
-      this.$router.push('/pages/login').catch(() => {})
+      this.$router.push('/login').catch(() => {})
     }
   }
 }
