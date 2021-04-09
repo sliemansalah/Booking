@@ -1,18 +1,12 @@
 <template lang="html">
   <div>
-    <vs-table stripe :data="services">
-
-      <template slot="header">
-        <div class="row">
-            <div class="col-md-6">
-              <span class="mb-3 h3">
-                {{$t('Services')}}
-              </span>
-            </div>
-        </div>
-      </template>
-
-
+    <span class="h1"> {{$t('Services')}} </span>
+     <vs-button color="primary" class="float-right mb-5" @click="popupActive=true"
+     >
+      {{$t("AddNewService")}}
+    </vs-button>
+    <vs-table
+     stripe :data="services">
       <template slot="thead">
         <vs-th>
           {{$t('Name')}}

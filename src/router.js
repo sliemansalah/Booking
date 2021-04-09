@@ -45,12 +45,12 @@ const router = new Router({
         // =============================================================================
               {
                 path: '/login',
-                name: 'page-login',
+                name: 'login',
                 component: () => import('@/views/Login.vue')
               },
               {
-                path: '/error-404',
-                name: 'page-error-404',
+                path: '/error',
+                name: 'error',
                 component: () => import('@/views/Error404.vue')
               },
             ]
@@ -58,20 +58,23 @@ const router = new Router({
         // Redirect to 404 page, if no match found
         {
             path: '*',
-            redirect: '/error-404'
+            redirect: '/error'
         }
     ],
 })
 
 let token = localStorage.getItem("token") || null;
 
-router.afterEach(() => {
+router.afterEach((to, from) => {
   const appLoading = document.getElementById('loading-bg')
     if (appLoading) {
         appLoading.style.display = "none";
     }
     if(!token) {
       router.push('/login');
+    }
+    else if (token && to.path== '/login') {
+      router.push('/');
     }
 })
 

@@ -1,10 +1,11 @@
 <template>
   <div>
-    <vs-button @click="popupActive=true">{{
-      $t("AddNewBook")
-    }}</vs-button>
+    <span class="h1"> {{ $t("Appointments") }} </span>
+    <vs-button color="primary" class="float-right" @click="popupActive = true">
+      {{ $t("AddNewBook") }}
+    </vs-button>
     <Fullcalendar
-      class="mt-3"
+      class="mt-10"
       :locale="locale"
       defaultView="dayGridMonth"
       :plugins="calendarPlugins"
@@ -14,9 +15,9 @@
         left: 'next today prev',
       }"
       :buttonText="{
-        today: 'اليوم',
-        month: 'حسب الشهر',
-        day: 'حسب اليوم',
+        today: $t('Today'),
+        month: $t('AsMonth'),
+        day: $t('AsToday'),
       }"
       :weekends="true"
       :selectable="true"
@@ -59,7 +60,7 @@ import arLocale from "@fullcalendar/core/locales/ar";
 
 export default {
   data: () => ({
-    popupActive:false,
+    popupActive: false,
     calendarPlugins: [DayGridPlugin, TimeGridPlugin, InteractionPlugin],
     locale: arLocale,
     events: [],
@@ -72,33 +73,33 @@ export default {
     handleSelect(arg) {},
     handleEventClick(arg) {},
     initData() {
-        this.$store.dispatch("appointment/getData").then(res => {
-            this.events= res.data.resources.map(data=> {
-                data.title= data.user.name;
-                data.start= data.start_time;
-                data.end = data.finish_time;
-                if(new Date(data.end).getDate() == new Date().getDate()) {
-                    data.backgroundColor= "#00f";
-                    data.borderColor= "#00f";
-                }
-                else if(new Date(data.end).getDate() < new Date().getDate()) {
-                    data.backgroundColor= "#f00";
-                    data.borderColor= "#f00";
-                }
-                else if(new Date(data.end).getDate() > new Date().getDate()) {
-                    data.backgroundColor= "#000";
-                    data.borderColor= "#000";
-                }
-                
-                return data;
-            });
-            console.log(this.events);
-        })
+      this.$store.dispatch("appointment/getData").then((res) => {
+        this.events = res.data.resources.map((data) => {
+          data.title = data.user.name;
+          data.start = data.start_time;
+          data.end = data.finish_time;
+          if (new Date(data.end).getDate() == new Date().getDate()) {
+            if (new Date(data.end).getTime() < new Date().getTime()) {
+              data.backgroundColor = "#f00";
+              data.borderColor = "#f00";
+            } else {
+              data.backgroundColor = "#00f";
+              data.borderColor = "#00f";
+            }
+          } else if (new Date(data.end).getTime() > new Date().getTime()) {
+            data.backgroundColor = "#000";
+            data.borderColor = "#000";
+          }
+
+          return data;
+        });
+        console.log(this.events);
+      });
     },
   },
   created() {
-      this.initData();
-  }
+    this.initData();
+  },
 };
 </script>
 
@@ -108,16 +109,15 @@ export default {
 }
 [dir="rtl"] .fc-rtl {
   text-align: center;
-  padding-top: 25px;
 }
 [dir="rtl"] .fc-view-container {
   direction: ltr !important;
 }
 [dir="rtl"] .fc-time-grid-container {
-    overflow: visible !important;
-    height: unset !important;
+  overflow: visible !important;
+  height: unset !important;
 }
 [dir="rtl"] .fc-time-grid .fc-slats td {
-    direction: rtl !important;
+  direction: rtl !important;
 }
 </style>

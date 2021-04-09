@@ -61,11 +61,24 @@ export default {
     }
   },
   methods: {
-    logout () {
-      localStorage.removeItem('token')
-      localStorage.removeItem('user')
-      // This is just for demo Purpose. If user clicks on logout -> redirect
-      this.$router.push('/login').catch(() => {})
+    logout () {      
+      this.$store.dispatch('auth/logout').then(() => {
+        this.$vs.notify({
+        title:this.$t('Logout'),
+        text: this.$t('LogoutSuccessfully'),
+        color:'success',
+        position: 'top-center',
+        time:4000,
+      })
+      })
+      .catch(() => {})
+      .finally(() => {
+        setTimeout(() => {
+           localStorage.removeItem('token')
+           localStorage.removeItem('user');
+           window.location.href= "/login";
+        }, 500);
+        })
     }
   }
 }

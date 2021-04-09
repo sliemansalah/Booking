@@ -11,5 +11,11 @@
     "Email": "البريد الإلكتروني",
     "Password": "كلمة المرور",
     "Logout": "تسجيل الخروج",
-    "ProjectTitle": "نظام حجوزات"
+    "ProjectTitle": "نظام حجوزات",
+    "Today":"اليوم",
+    "AsToday":"حسب اليوم",
+    "AsMonth": "حسب الشهر",
+    "LoginSuccessfully": "تم تسجيل الدخول بنجاح",
+    "LoginFailed": "فشلت عملية تسجيل الدخول",
+    "LogoutSuccessfully": "تم تسجيل الخروج بنجاح"
 }

@@ -12,7 +12,7 @@ const userDefaults = {
   uid         : user?user.id: '',          // From Auth
   displayName : user?user.name: '', // From Auth
   about       : "Dessert chocolate cake lemon drops jujubes. Biscuit cupcake ice cream bear claw brownie brownie marshmallow.",
-  photoURL    : require("@/assets/images/portrait/small/book.png"), // From Auth
+  photoURL    : require("@/assets/images/portrait/small/user.jpg"), // From Auth
   status      : "online",
   userRole    : "admin"
 }

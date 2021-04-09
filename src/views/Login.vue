@@ -51,6 +51,7 @@
 
 <script>
 export default{
+  name: 'login',
   data() {
     return {
       inputs: {
@@ -62,10 +63,28 @@ export default{
   methods: {
      login() {
     this.$store.dispatch('auth/login', this.inputs).then(res => {
-      localStorage.setItem("token", res.data.token);
-      localStorage.setItem("user", JSON.stringify(res.data));
-      window.location.href= "/";
-    });
+      this.$vs.notify({
+        title:this.$t('Login'),
+        text: this.$t('LoginSuccessfully'),
+        color:'success',
+        position: 'top-center',
+        time:4000,
+      })
+      setTimeout(() => {
+        localStorage.setItem("token", res.data.token);
+        localStorage.setItem("user", JSON.stringify(res.data));
+        window.location.href= "/";
+      }, 500);
+    })
+    .catch(() => {
+      this.$vs.notify({
+        title:this.$t('Login'),
+        text: this.$t('LoginFailed'),
+        color:'danger',
+        position: 'top-center',
+        time:4000,
+      })
+    })
   },
   }
 }
