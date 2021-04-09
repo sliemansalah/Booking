@@ -1,0 +1,9 @@
+
+@font-face {
+  font-family: Cairo;
+  src: url('../fonts/Cairo/Cairo-Regular.ttf');
+}
+
+body, .vs-button {
+  font-family: Cairo !important;
+}
