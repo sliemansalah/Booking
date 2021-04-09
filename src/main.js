@@ -2,6 +2,11 @@
 import Vue from 'vue'
 import App from './App.vue'
 
+
+import ElementUI from 'element-ui';
+import 'element-ui/lib/theme-chalk/index.css';
+Vue.use(ElementUI);
+
 // Vuesax Component Framework
 import Vuesax from 'vuesax'
 import 'material-icons/iconfont/material-icons.css' //Material Icons
@@ -80,10 +85,6 @@ window.axios = axios;
 let token = localStorage.getItem("token") || null;
 window.axios.defaults.headers.common = { 'Authorization': `Bearer ${token}` }
 /* **************************************************************** */
-
-import ElementUI from 'element-ui';
-import 'element-ui/lib/theme-chalk/index.css';
-Vue.use(ElementUI);
 
 Vue.config.productionTip = false
 

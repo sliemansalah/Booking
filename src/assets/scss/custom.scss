@@ -24,5 +24,14 @@ body, .vs-button, .vs-input {
 
 [dir]  #servicesTable .vs-table--search  {
   right: 11.5rem;
+}
 
+[dir] .vx-navbar-wrapper {
+  background: unset !important;
+}
+
+[dir] .navbar-floating .vx-navbar {
+  position: fixed;
+  top: 0;
+  left: 0px;
 }
