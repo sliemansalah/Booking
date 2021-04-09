@@ -1,7 +1,11 @@
 <template>
   <div>
     <span class="h1"> {{ $t("Appointments") }} </span>
-    <vs-button color="primary" class="float-right" @click="popupActive = true">
+    <vs-button
+      color="primary"
+      class="float-right"
+      @click="appointmentsModal = true"
+    >
       {{ $t("AddNewBook") }}
     </vs-button>
     <Fullcalendar
@@ -30,21 +34,55 @@
       @eventRender="renderEvent"
     />
 
-    <vs-popup
-      class="holamundo"
-      :title="$t('AddNewService')"
-      :active.sync="popupActive"
+    <el-dialog
+      :title="$t('AddNewAppointment')"
+      :visible.sync="appointmentsModal"
+      width="75%"
+      style="margin-right: 10%"
     >
-      <p>
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-        veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-        commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-        velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
-        occaecat cupidatat non proident, sunt in culpa qui officia deserunt
-        mollit anim id est laborum.
-      </p>
-    </vs-popup>
+      <div class="vx-row">
+        <div class="vx-col sm:w-full md:w-full lg:w-1/4">
+          <el-select
+            v-model="inputs.services"
+            multiple
+            filterable
+            clearable
+            collapse-tags
+          >
+            <el-option
+              v-for="(item, index) in services"
+              :key="index"
+              :label="item.name"
+              :value="item.id"
+            >
+            </el-option>
+          </el-select>
+        </div>
+        <div class="vx-col sm:w-full md:w-full lg:w-1/4">
+          <el-select
+            v-model="inputs.user"
+            filterable
+            clearable
+          >
+            <el-option
+              v-for="(item, index) in users"
+              :key="index"
+              :label="item.name"
+              :value="item.id"
+            >
+            </el-option>
+          </el-select>
+        </div>
+        <div class="vx-col sm:w-full md:w-full lg:w-1/4">3</div>
+        <div class="vx-col sm:w-full md:w-full lg:w-1/4">4</div>
+      </div>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="appointmentsModal = false">Cancel</el-button>
+        <el-button type="primary" @click="appointmentsModal = false"
+          >Confirm</el-button
+        >
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -60,10 +98,16 @@ import arLocale from "@fullcalendar/core/locales/ar";
 
 export default {
   data: () => ({
-    popupActive: false,
+    appointmentsModal: false,
     calendarPlugins: [DayGridPlugin, TimeGridPlugin, InteractionPlugin],
     locale: arLocale,
     events: [],
+    services: [],
+    users: [],
+    inputs: {
+      services: "",
+      user: "",
+    },
   }),
   components: { Fullcalendar },
   methods: {
@@ -73,8 +117,14 @@ export default {
     handleSelect(arg) {},
     handleEventClick(arg) {},
     initData() {
-      this.$store.dispatch("appointment/getData").then((res) => {
-        this.events = res.data.resources.map((data) => {
+      this.$store.dispatch("services/getData").then((res) => {
+        this.services = res.data;
+      });
+      this.$store.dispatch("users/getData").then((res) => {
+        this.users = res.data;
+      });
+      this.$store.dispatch("appointments/getData").then((res) => {
+        this.events = res.data.map((data) => {
           data.title = data.user.name;
           data.start = data.start_time;
           data.end = data.finish_time;
@@ -93,7 +143,6 @@ export default {
 
           return data;
         });
-        console.log(this.events);
       });
     },
   },

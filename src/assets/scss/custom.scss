@@ -4,7 +4,7 @@
   src: url('../fonts/Cairo/Cairo-Regular.ttf');
 }
 
-body, .vs-button {
+body, .vs-button, .vs-input {
   font-family: Cairo !important;
 }
 
@@ -14,4 +14,15 @@ body, .vs-button {
 }
 .vs-notifications h3 {
   text-align: center;
+}
+
+[dir] .vs-table--search {
+  position: relative;
+  top: 10px;
+  right: 9.5rem;
+}
+
+[dir]  #servicesTable .vs-table--search  {
+  right: 11.5rem;
+
 }

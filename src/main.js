@@ -81,6 +81,9 @@ let token = localStorage.getItem("token") || null;
 window.axios.defaults.headers.common = { 'Authorization': `Bearer ${token}` }
 /* **************************************************************** */
 
+import ElementUI from 'element-ui';
+import 'element-ui/lib/theme-chalk/index.css';
+Vue.use(ElementUI);
 
 Vue.config.productionTip = false
 

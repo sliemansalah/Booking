@@ -1,19 +1,22 @@
 <template lang="html">
   <div>
-    <span class="h1"> {{$t('Services')}} </span>
+    <span class="h1"> {{$t('Users')}} </span>
      <vs-button color="primary" class="float-right mb-5" @click="addNew"
      >
-      {{$t("AddNewService")}}
+      {{$t("AddNewUser")}}
     </vs-button>
-    <vs-table id="servicesTable"
+    <vs-table id="usersTable"
     max-items="10" 
     pagination
     search 
      :noDataText="$t('NoData')"
-     stripe :data="services">
+     stripe :data="users">
       <template slot="thead">
         <vs-th sort-key="name">
           {{$t('Name')}}
+        </vs-th>
+        <vs-th sort-key="email">
+          {{$t('Email')}}
         </vs-th>
         <vs-th sort-key="created_at">
           {{$t('CreatedAt')}}
@@ -27,6 +30,10 @@
         <vs-tr v-for="(tr, indextr) in data" :key="indextr">
           <vs-td :data="data[indextr].name">
             {{data[indextr].name}}
+          </vs-td>
+
+           <vs-td :data="data[indextr].email">
+            {{data[indextr].email}}
           </vs-td>
 
           <vs-td :data="data[indextr].created_at">
@@ -43,14 +50,21 @@
 
      <vs-popup
       class="holamundo"
-      :title="$t('AddNewService')"
-      :active.sync="serviceModal"
+      :title="$t('AddNewUser')"
+      :active.sync="userModal"
     >
     <vs-input
       name="name"
       icon-no-border
       :label-placeholder="$t('Name')"
       v-model="inputs.name"
+      class="w-full mt-6"
+    />
+     <vs-input
+      name="email"
+      icon-no-border
+      :label-placeholder="$t('Email')"
+      v-model="inputs.email"
       class="w-full mt-6"
     />
     <vs-button color="success" @click="saveData" class="float-right mt-3 mb-3">
@@ -65,38 +79,40 @@
 export default {
   data() {
 	return {
-		services:[],
-    serviceModal: false,
+		users:[],
+    userModal: false,
     inputs: {
       id: 0,
-      name: ''
+      name: '',
+      email: ''
     }
 	}
   },
   methods: {
 	  initData() {
-		     this.$store.dispatch("services/getData").then(res => {
-				 this.services= res.data;
+		     this.$store.dispatch("users/getData").then(res => {
+				 this.users= res.data;
 			 });
 	  },
     addNew() {
       this.clearData();
-      this.serviceModal=true;
+      this.userModal=true;
     },
     clearData() {
       this.inputs = {
       id: 0,
-      name: ''
+      name: '',
+      email: ''
     }
     },
     editData(row) {
-      this.serviceModal= true;
+      this.userModal= true;
       this.inputs = JSON.parse(JSON.stringify(row))
     },
     saveData() {
       if(this.inputs.id == 0) {
-        this.$store.dispatch('services/saveData', this.inputs).then(res => {
-          this.serviceModal= false;
+        this.$store.dispatch('users/saveData', this.inputs).then(res => {
+          this.userModal= false;
             this.$vs.notify({
               title:this.$t('Saved'),
               text: this.$t('SavedSuccessfully'),
@@ -108,8 +124,8 @@ export default {
         })
       }
       else {
-         this.$store.dispatch('services/updateData', this.inputs).then(res => {
-          this.serviceModal= false;
+         this.$store.dispatch('users/updateData', this.inputs).then(res => {
+          this.userModal= false;
             this.$vs.notify({
               title:this.$t('Updated'),
               text: this.$t('UpdatedSuccessfully'),
@@ -137,8 +153,8 @@ export default {
     })
     },
     removeData(id) {
-        this.$store.dispatch('services/removeData', id).then(res => {
-          this.serviceModal= false;
+        this.$store.dispatch('users/removeData', id).then(res => {
+          this.userModal= false;
             this.$vs.notify({
               title:this.$t('Deleted'),
               text: this.$t('DeletedSuccessfully'),

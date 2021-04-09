@@ -44,7 +44,7 @@ const actions = {
     return new Promise((resolve, reject) => {
        let form = new FormData();
        if( data.name) form.append('name', data.name);
-      window.axios.post(window.server_url + `/api/admin/service/${data.id}/user`, form)
+      window.axios.post(window.server_url + `/api/admin/user/${data.id}/update`, form)
         .then((response) => {
           resolve(response.data);
         })
