@@ -173,19 +173,3 @@ export default {
   }
 }
 </script>
-
-<style>
-.vs-con-table .vs-con-tbody .vs-table--tbody-table .vs-table--thead th {
-	background: rgb(17, 17, 51);
-	color: #fff;
-}
-.cursor {
-	cursor: pointer;
-}
-.editIcon:hover {
-	color: green;
-}
-.deleteIcon:hover {
-	color: red;
-}
-</style>

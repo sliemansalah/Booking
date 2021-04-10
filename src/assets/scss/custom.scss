@@ -19,12 +19,19 @@ body, .vs-button, .vs-input {
 [dir] .vs-table--search {
   position: relative;
   top: 10px;
-  right: 9.5rem;
+}
+[dir] #usersTable .vs-table--search {
+  right: 12.5rem;
 }
 
 [dir]  #servicesTable .vs-table--search  {
   right: 11.5rem;
 }
+
+[dir]  #booksTable .vs-table--search  {
+  right: 10.5rem;
+}
+
 
 [dir] .vx-navbar-wrapper {
   background: unset !important;
@@ -39,3 +46,35 @@ body, .vs-button, .vs-input {
 .el-scrollbar__view {
   padding: 0 15px;
 }
+
+.vs-con-table .vs-con-tbody .vs-table--tbody-table .vs-table--thead th {
+	background: rgb(17, 17, 51);
+	color: #fff;
+}
+.cursor {
+	cursor: pointer;
+}
+.editIcon:hover {
+	color: green;
+}
+.deleteIcon:hover {
+	color: red;
+}
+
+.fc-button .fc-icon {
+  transform: rotateY(180deg);
+}
+[dir="rtl"] .fc-rtl {
+  text-align: center;
+}
+[dir="rtl"] .fc-view-container {
+  direction: ltr !important;
+}
+[dir="rtl"] .fc-time-grid-container {
+  overflow: visible !important;
+  height: unset !important;
+}
+[dir="rtl"] .fc-time-grid .fc-slats td {
+  direction: rtl !important;
+}
+

@@ -11,7 +11,13 @@ export default [
     url: "/",
     name: i18n.t("Appointments"),
     slug: "appointments",
-    icon: "BookIcon",
+    icon: "ClockIcon",
+  },
+  {
+    url: "/appointments",
+    name: i18n.t("AppointmentsTable"),
+    slug: "appointmentsTable",
+    icon: "ListIcon",
   },
   {
     url: "/users",

@@ -41,5 +41,13 @@
     "Date": "التاريخ",
     "FromTime": "من وقت",
     "ToTime": "إلى وقت",
-    "EditBook": "تعديل حجز"
+    "EditBook": "تعديل حجز",
+    "AppointmentsTable": "جدول الحجوزات",
+    "StartTime": "من وقت",
+    "EndTime": "إلى وقت",
+    "Status": "حالة الحجز",
+    "NewBook": "حجز جديد",
+    "InprogressBook": "حجز قيد التنفيذ",
+    "EndBook": "حجز منتهي",
+    "RemoveBook": "حجز ملغي"
 }
