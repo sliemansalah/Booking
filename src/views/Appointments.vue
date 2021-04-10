@@ -88,6 +88,7 @@
           <label>{{ $t("FromTime") }}</label>
 
           <el-time-select
+            class="mt-2"
             :placeholder="$t('Select')"
             v-model="startTime"
             :picker-options="{
@@ -103,6 +104,7 @@
           <label>{{ $t("ToTime") }}</label>
 
           <el-time-select
+            class="mt-2"
             :placeholder="$t('Select')"
             v-model="endTime"
             :picker-options="{
