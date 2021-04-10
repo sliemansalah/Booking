@@ -6,9 +6,10 @@
       class="float-right"
       @click="addNew"
     >
-      {{ $t("AddNewBook") }}
+      <span>{{ $t("AddNewBook") }}</span>
     </vs-button>
     <Fullcalendar
+      :allDaySlot="false"
       class="mt-10"
       :locale="locale"
       defaultView="dayGridMonth"
@@ -35,7 +36,7 @@
     />
 
     <el-dialog
-      :title="$t('AddNewAppointment')"
+      :title="editMode?$t('EditBook'):$t('AddNewBook')"
       :visible.sync="appointmentsModal"
       width="75%"
       style="margin-right: 10%"
@@ -94,7 +95,7 @@
             :picker-options="{
               start: '00:00',
               step: '00:30',
-              end: '24:00',
+              end: '23:00',
             }"
           >
           </el-time-select>
@@ -110,7 +111,7 @@
             :picker-options="{
               start: '00:00',
               step: '00:30',
-              end: '24:00',
+              end: '23:00',
               minTime: startTime,
             }"
           >
@@ -143,6 +144,7 @@ export default {
   data() {
     return {
       appointmentsModal: false,
+      editMode: false,
       calendarPlugins: [DayGridPlugin, TimeGridPlugin, InteractionPlugin],
       locale: arLocale,
       events: [],
@@ -157,6 +159,7 @@ export default {
       date: null,
       startTime: null,
       endTime: null,
+      id: null,
     };
   },
   components: { Fullcalendar },
@@ -167,9 +170,27 @@ export default {
     },
     saveData() {
       let dataToSend= this.inputs;
+      dataToSend.id = parseInt(this.id);
       dataToSend.start_time= moment(this.date).format("YYYY-MM-DD") + ' ' + this.startTime;
       dataToSend.finish_time= moment(this.date).format("YYYY-MM-DD") + ' ' + this.endTime;
-      this.$store.dispatch("appointments/saveData", dataToSend).then(res => {
+      if(this.editMode) {
+        this.$store.dispatch("appointments/updateData", dataToSend).then(res => {
+           this.$vs.notify({
+              title:this.$t('Updated'),
+              text: this.$t('UpdatedSuccessfully'),
+              color:'success',
+              position: 'top-center',
+              time:4000,
+          });
+        this.appointmentsModal = false;
+        this.initData();
+      })
+      .catch(err => {
+
+      });
+      }
+      else {
+        this.$store.dispatch("appointments/saveData", dataToSend).then(res => {
            this.$vs.notify({
               title:this.$t('Saved'),
               text: this.$t('SavedSuccessfully'),
@@ -183,6 +204,7 @@ export default {
       .catch(err => {
 
       });
+      }
     },
     clearData() {
       this.inputs = {
@@ -190,13 +212,52 @@ export default {
         user_id: "",
         start_time: "",
         finish_time: ""
-      }
+      };
+      this.date = null;
+      this.startTime = null;
+      this.endTime =null;
+      this.id= null;
+      this.editMode= false;
     },
-    newEvent() {},
-    renderEvent(arg) {},
-    updateEvent(arg) {},
-    handleSelect(arg) {},
-    handleEventClick(arg) {},
+    newEvent() {
+          // console.log('new evebt')
+    },
+    renderEvent(arg) {
+          // console.log('render event', arg)
+    },
+    updateEvent(arg) {
+          // console.log('event=', arg.event);
+    },
+    handleSelect(arg) {
+      this.addNew();
+      if(arg.startStr.includes("T")) {
+        this.date= moment(arg.startStr);
+        this.startTime= arg.startStr.substring(11,16);
+        this.endTime= arg.endStr.substring(11,16);
+        }else {
+        this.date= moment(arg.startStr);
+      }
+      
+    },
+    handleEventClick(arg) {
+      this.addNew();
+      this.editMode= true;
+      this.id = arg.event.id;
+      this.$store.dispatch("appointments/findData", arg.event.id).then((res) => {
+         this.inputs = res.data;
+         this.date= moment(res.data.start_time).format("YYYY-MM-DD");
+         this.startTime= res.data.start_time.substring(11, 16)
+         this.endTime= res.data.finish_time.substring(11, 16);
+
+         
+        let getServices = [];
+        this.inputs.services.forEach(data => {
+          getServices.push(data.id);
+        });
+        this.inputs.services = getServices;
+        
+        });
+    },
     initData() {
       this.$store.dispatch("services/getData").then((res) => {
         this.services = res.data;
