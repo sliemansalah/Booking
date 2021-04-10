@@ -65,7 +65,7 @@ const actions = {
   
   removeData({}, id) {
     return new Promise((resolve, reject) => {
-        window.axios.delete(window.server_url + `/api/admin/appointment`, {
+        window.axios.delete(window.server_url + `/api/admin/appointment/${id}`, {
             data: {
                 ids: id
             }

@@ -124,6 +124,11 @@
           type="primary" @click="saveData"
           >{{$t('Save')}}</el-button
         >
+        <el-button v-if="editMode"
+
+          type="danger" @click="openConfirm"
+          >{{$t('Delete')}}</el-button
+        >
       </span>
     </el-dialog>
   </div>
@@ -168,6 +173,35 @@ export default {
       this.clearData();
       this.appointmentsModal = true;
     },
+      openConfirm(){
+      let me= this;
+      this.$vs.dialog({
+        type:'confirm',
+        color: 'danger',
+        title: this.$t('Delete'),
+        text: this.$t('DeleteQuestion'),
+        acceptText:this.$t('Accept'),
+        cancelText: this.$t('Cancel'),
+        accept: function () {
+          me.removeData()
+        },
+    })
+    },
+    removeData() {
+        this.$store.dispatch('appointments/removeData', parseInt(this.id)).then(res => {
+          this.serviceModal= false;
+            this.$vs.notify({
+              title:this.$t('Deleted'),
+              text: this.$t('DeletedSuccessfully'),
+              color:'success',
+              position: 'top-center',
+              time:4000,
+          })
+          this.appointmentsModal = false;
+          this.initData();
+        })
+    },
+    
     saveData() {
       let dataToSend= this.inputs;
       dataToSend.id = parseInt(this.id);
