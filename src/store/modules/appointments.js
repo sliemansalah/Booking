@@ -28,34 +28,7 @@ const actions = {
 
   saveData({}, data) {
     return new Promise((resolve, reject) => {
-       let form = new FormData();
-       if( data.name) form.append('name', data.name);
-       if( data.description) form.append('description', data.description);
-       if( data.price) form.append('price', data.price);
-       if( data.selling_price) form.append('selling_price', data.selling_price);
-       if( data.qty) form.append('qty', data.qty);
-       if( data.appointment_type_id) form.append('appointment_type_id', data.appointment_type_id);
-       if( data.store_id) form.append('store_id', data.store_id);
-       if( data.image) form.append('image', data.image);
-     
-       if( data.is_offer) {
-        form.append('is_offer', 1);
-        if( data.special_price) form.append('special_price', data.special_price);
-        if( data.special_price_start) form.append('special_price_start', data.special_price_start)
-        if( data.special_price_end) form.append('special_price_end', data.special_price_end); 
-       }
-       else {
-        form.append('is_offer', 0);
-       }
-
-       if(data.category) {
-        data.category.forEach(ctg => {
-          console.log(ctg.id);
-          form.append('category_id[]', ctg.id);
-         });
-       }
-        form.append('status', data.status?1:0);
-      window.axios.post(window.server_url + `/api/admin/appointment`, form)
+        window.axios.post(window.server_url + `/api/admin/appointment`, data)
         .then((response) => {
           resolve(response.data);
         })

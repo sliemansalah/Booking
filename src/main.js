@@ -2,10 +2,12 @@
 import Vue from 'vue'
 import App from './App.vue'
 
-
-import ElementUI from 'element-ui';
-import 'element-ui/lib/theme-chalk/index.css';
-Vue.use(ElementUI);
+import ElementUI from "element-ui";
+import "element-ui/lib/theme-chalk/index.css";
+import elementAr from "element-ui/lib/locale/lang/ar";
+import locale from 'element-ui/lib/locale'
+Vue.use(ElementUI, {elementAr});
+locale.use(elementAr)
 
 // Vuesax Component Framework
 import Vuesax from 'vuesax'

@@ -4,7 +4,7 @@
     <vs-button
       color="primary"
       class="float-right"
-      @click="appointmentsModal = true"
+      @click="addNew"
     >
       {{ $t("AddNewBook") }}
     </vs-button>
@@ -41,29 +41,29 @@
       style="margin-right: 10%"
     >
       <div class="vx-row">
-        <div class="vx-col sm:w-full md:w-full lg:w-1/4">
+        <div class="vx-col sm:w-full md:w-full lg:w-4/4">
+          <label>{{ $t("Services") }}</label>
           <el-select
+            style="width: 100%"
+            class="mt-2"
             v-model="inputs.services"
             multiple
             filterable
             clearable
-            collapse-tags
+            :placeholder="$t('Select')"
           >
             <el-option
-              v-for="(item, index) in services"
-              :key="index"
+              v-for="item in services"
+              :key="item.id"
               :label="item.name"
               :value="item.id"
             >
             </el-option>
           </el-select>
         </div>
-        <div class="vx-col sm:w-full md:w-full lg:w-1/4">
-          <el-select
-            v-model="inputs.user"
-            filterable
-            clearable
-          >
+        <div class="vx-col sm:w-full md:w-full lg:w-1/4 mt-3">
+          <label>{{ $t("User") }}</label>
+          <el-select class="mt-2" v-model="inputs.user_id" filterable clearable>
             <el-option
               v-for="(item, index) in users"
               :key="index"
@@ -73,13 +73,53 @@
             </el-option>
           </el-select>
         </div>
-        <div class="vx-col sm:w-full md:w-full lg:w-1/4">3</div>
-        <div class="vx-col sm:w-full md:w-full lg:w-1/4">4</div>
+        <div class="vx-col sm:w-full md:w-full lg:w-1/4 mt-3">
+          <label>{{ $t("Date") }}</label>
+          <el-date-picker
+            class="mt-2"
+            v-model="date"
+            type="date"
+            :placeholder="$t('Select')"
+          >
+          </el-date-picker>
+        </div>
+
+        <div class="vx-col sm:w-full md:w-full lg:w-1/4 mt-3">
+          <label>{{ $t("FromTime") }}</label>
+
+          <el-time-select
+            :placeholder="$t('Select')"
+            v-model="startTime"
+            :picker-options="{
+              start: '00:00',
+              step: '00:30',
+              end: '24:00',
+            }"
+          >
+          </el-time-select>
+        </div>
+
+        <div class="vx-col sm:w-full md:w-full lg:w-1/4 mt-3">
+          <label>{{ $t("ToTime") }}</label>
+
+          <el-time-select
+            :placeholder="$t('Select')"
+            v-model="endTime"
+            :picker-options="{
+              start: '00:00',
+              step: '00:30',
+              end: '24:00',
+              minTime: startTime,
+            }"
+          >
+          </el-time-select>
+        </div>
       </div>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="appointmentsModal = false">Cancel</el-button>
-        <el-button type="primary" @click="appointmentsModal = false"
-          >Confirm</el-button
+        <el-button 
+
+          type="primary" @click="saveData"
+          >{{$t('Save')}}</el-button
         >
       </span>
     </el-dialog>
@@ -95,22 +135,60 @@ import DayGridPlugin from "@fullcalendar/daygrid";
 import TimeGridPlugin from "@fullcalendar/timegrid";
 import InteractionPlugin from "@fullcalendar/interaction";
 import arLocale from "@fullcalendar/core/locales/ar";
-
+import moment from 'moment';
 export default {
-  data: () => ({
-    appointmentsModal: false,
-    calendarPlugins: [DayGridPlugin, TimeGridPlugin, InteractionPlugin],
-    locale: arLocale,
-    events: [],
-    services: [],
-    users: [],
-    inputs: {
-      services: "",
-      user: "",
-    },
-  }),
+  name: "appointments",
+  data() {
+    return {
+      appointmentsModal: false,
+      calendarPlugins: [DayGridPlugin, TimeGridPlugin, InteractionPlugin],
+      locale: arLocale,
+      events: [],
+      services: [],
+      users: [],
+      inputs: {
+        services: [],
+        user_id: "",
+        start_time: "",
+        finish_time: ""
+      },
+      date: null,
+      startTime: null,
+      endTime: null,
+    };
+  },
   components: { Fullcalendar },
   methods: {
+    addNew() {
+      this.appointmentsModal = true
+    },
+    saveData() {
+      let dataToSend= this.inputs;
+      dataToSend.start_time= moment(this.date).format("YYYY-MM-DD") + ' ' + this.startTime;
+      dataToSend.finish_time= moment(this.date).format("YYYY-MM-DD") + ' ' + this.endTime;
+      this.$store.dispatch("appointments/saveData", dataToSend).then(res => {
+           this.$vs.notify({
+              title:this.$t('Saved'),
+              text: this.$t('SavedSuccessfully'),
+              color:'success',
+              position: 'top-center',
+              time:4000,
+          });
+        this.appointmentsModal = false;
+        this.initData();
+      })
+      .catch(err => {
+
+      });
+    },
+    clearData() {
+      this.inputs = {
+        services: [],
+        user_id: "",
+        start_time: "",
+        finish_time: ""
+      }
+    },
     newEvent() {},
     renderEvent(arg) {},
     updateEvent(arg) {},
