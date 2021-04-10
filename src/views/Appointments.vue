@@ -160,7 +160,8 @@ export default {
   components: { Fullcalendar },
   methods: {
     addNew() {
-      this.appointmentsModal = true
+      this.clearData();
+      this.appointmentsModal = true;
     },
     saveData() {
       let dataToSend= this.inputs;
