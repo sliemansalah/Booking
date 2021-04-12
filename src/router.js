@@ -41,11 +41,6 @@ const router = new Router({
                 name: 'users',
                 component: () => import('./views/Users.vue')
               },
-              {
-                path: '/appointment',
-                name: 'appointment',
-                component: () => import('./views/Appointment.vue')
-              },
             ],
         },
     // =============================================================================
@@ -67,6 +62,11 @@ const router = new Router({
                 path: '/error',
                 name: 'error',
                 component: () => import('@/views/Error404.vue')
+              },
+              {
+                path: '/appointment',
+                name: 'appointment',
+                component: () => import('./views/Appointment.vue')
               },
             ]
         },
